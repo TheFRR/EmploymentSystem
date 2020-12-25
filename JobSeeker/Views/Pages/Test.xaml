@@ -11,65 +11,61 @@
       Title="Test" Style="{StaticResource Page}">
 
     <Page.DataContext>
-        <viewmodels:VMTest />
+        <viewmodels:VMTest/>
     </Page.DataContext>
 
     <Grid>
-        <StackPanel Width="250" VerticalAlignment="Center">
+        <StackPanel Width="300" VerticalAlignment="Center">
             <materialDesign:Card
-            Height="200"
+            Height="300"
             Padding="8" Margin="0,5,0,0">
                 <StackPanel>
-                    <TextBlock
-                    Margin="5,5,0,0"
-                    FontSize="16"
-                    Text="0/20" />
-                    <TextBlock
-                    Margin="16 16 12 8"
-                    FontSize="16"
-                    Text="Лягушка или жаба?" />
-                    <RadioButton
-                    Margin="16,4,16,0"
-                    Content="Лягушка;" />
-                    <RadioButton
-                    Margin="16,4,16,0"
-                    Content="Жаба;" />
-                    <RadioButton
-                    Margin="16,4,16,0"
-                    Content="Жабная лягушка." />
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                                Margin="8,5,0,0"
+                                FontSize="18" FontStyle="Italic"
+                                Text="{Binding currentNumbers[0]}"/>
+                        <TextBlock Margin="0,5,0,0" FontSize="18" FontStyle="Italic" Text=" / "></TextBlock>
+                        <TextBlock
+                                Margin="0,5,0,0"
+                                FontSize="18" FontStyle="Italic"
+                                Text="{Binding currentNumbers[1]}"/>
+                    </StackPanel>
+                    <TextBlock 
+                    Margin="8 16 12 8"
+                    FontSize="20"
+                    FontWeight="Medium"
+                    Text="{Binding currentQuestion.Text}"/>
+                    <ListBox SelectedValue="{Binding SelectedVariant, Mode=TwoWay}" ItemsSource="{Binding Variants}" 
+                             Style="{StaticResource MaterialDesignListBox}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <ListBoxItem Content="{Binding Text}" 
+                                             Style="{StaticResource MaterialDesignListBoxItem}" 
+                                             Padding="0" FontSize="16"></ListBoxItem>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
                     <Separator Margin="0 10 0 0"/>
                     <StackPanel
                     Margin="8 0 8 8"
                     Orientation="Horizontal"
                     HorizontalAlignment="Right">
                         <Button
-                        HorizontalAlignment="Left"
-                        Style="{StaticResource MaterialDesignToolForegroundButton}"
-                        Width="30"
-                        Margin="0,5,5,0"
-                        Padding="2 0 0 0"
-                        materialDesign:RippleAssist.IsCentered="True">
-                            <materialDesign:PackIcon Kind="ArrowBack"/>
-                        </Button>
-                        <Button
                         HorizontalAlignment="Right"
                         Style="{StaticResource MaterialDesignToolForegroundButton}"
-                        Width="30"
+                        Width="25"
+                        Height="25"
                         Margin="0,5,0,0"
-                        Padding="2 0 0 0"
+                        Padding="0 0 0 0"
+                        Command = "{Binding ConfirmAnswerCommand}" CommandParameter="{Binding SelectedVariant}"
                         materialDesign:RippleAssist.IsCentered="True">
-                            <materialDesign:PackIcon Kind="CheckAll" />
+                            <materialDesign:PackIcon Kind="CheckAll" Height="25" Width="25"/>
                         </Button>
                     </StackPanel>
                 </StackPanel>
             </materialDesign:Card>
-            <Button Margin="0,10,0,0" Padding="3 0 3 0" Command="{Binding EndTestCommand}">Завершить тест</Button>
-            <TextBlock
-                    Margin="5,10,0,5"
-                    FontSize="14"
-                    VerticalAlignment="Bottom"
-                    HorizontalAlignment="Center"
-                    Text="Времени прошло: 0:00:00" />
+            <Button Margin="0,10,0,0" Padding="3 0 3 0" Command="{Binding EndTestCommand}" CommandParameter="{Binding currentTest}">Завершить тест</Button>
         </StackPanel>
     </Grid>
 </Page>
