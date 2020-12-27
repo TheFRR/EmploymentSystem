@@ -23,10 +23,11 @@ namespace JobSeeker.ViewModels
 
         private Test currentTest;
         private User currentUser;
+        private bool flag = false;
 
         private BackToTestsCommand backToTestsCommand;
         public BackToTestsCommand BackToTestsCommand => backToTestsCommand ??
-                  (backToTestsCommand = new BackToTestsCommand(IoC.IoC.Get<IMainNavigation>()));
+                  (backToTestsCommand = new BackToTestsCommand(navigation));
 
         public VMTestResult()
         {
@@ -43,6 +44,11 @@ namespace JobSeeker.ViewModels
             selectedAnswers = baseManager.GetAllAnswers().Where(answer => answer.JobSeeker.Id == currentUser.Id && answer.Test.Id == currentTest.Id).ToList();
             allAnswers = baseManager.GetAllQuestions().Where(question => question.Test.Id == currentTest.Id).ToList().Count;
             correctAnswers = selectedAnswers.Where(answer => answer.Variant.Correctness == true).ToList().Count;
+            if (flag == false)
+            {
+                baseManager.CreateUserLine(new UserLine() { Test = currentTest, AllAnswers = allAnswers, CorrectAnswers = correctAnswers, JobSeeker = currentUser, Hired = false });
+                flag = true;
+            }
             OnPropertyChanged("allAnswers");
             OnPropertyChanged("correctAnswers");
         }

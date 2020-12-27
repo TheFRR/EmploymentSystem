@@ -25,9 +25,10 @@ namespace JobSeeker.ViewModels
         private List<Question> selectedQuestions;
         private List<EmploymentSystem.Data.Entities.Test> tests;
         private List<EmploymentSystem.Data.Entities.Test> selectedTests;
-        public EmploymentSystem.Data.Entities.Test currentTest { get; set; }
         private int i = 0;
+        private UserAnswer firstFalseAnswer;
 
+        public EmploymentSystem.Data.Entities.Test currentTest { get; set; }
         public List<int> currentNumbers { get; set; }
         public Question currentQuestion
         {
@@ -68,7 +69,7 @@ namespace JobSeeker.ViewModels
         public VMTest()
         {
             Messenger.Default.Register<Job>(this, SetData);
-
+            if (i != 0) i = 0;
             baseManager = IoC.IoC.Get<IBaseManager>();
             authorizationService = IoC.IoC.Get<IAuthorizationService>();
             navigation = IoC.IoC.Get<IMainNavigation>();
@@ -127,7 +128,8 @@ namespace JobSeeker.ViewModels
             {
                 return confirmAnswerCommand ?? (confirmAnswerCommand = new ConfirmAnswerCommand(obj =>
                 {
-                    baseManager.SetAnswer(new UserAnswer() { JobSeeker = currentUser, Question = currentQuestion, Test = currentTest, Variant = SelectedVariant });
+                    if (i == 0) baseManager.UpdateAnswer(firstFalseAnswer, SelectedVariant);
+                    else baseManager.SetAnswer(new UserAnswer() { JobSeeker = currentUser, Question = currentQuestion, Test = currentTest, Variant = SelectedVariant });
                     if (currentNumbers[0] != currentNumbers[1])
                     {
                         currentNumbers[0]++;
@@ -140,8 +142,7 @@ namespace JobSeeker.ViewModels
                     }
                     else
                     {
-                        currentTest.Available = false;
-                        baseManager.UpdateTest(currentTest);
+                        currentTest.Job.Available = false;
                         navigation.Navigate(new TestResult());
                         Messenger.Default.Send(currentTest);
                     }
@@ -151,7 +152,7 @@ namespace JobSeeker.ViewModels
 
         private EndTestCommand endTestCommand;
         public EndTestCommand EndTestCommand => endTestCommand ??
-                  (endTestCommand = new EndTestCommand(IoC.IoC.Get<IMainNavigation>()));
+                  (endTestCommand = new EndTestCommand(IoC.IoC.Get<IMainNavigation>(), baseManager));
 
         private int SelectRandomValue(int n)
         {
@@ -162,19 +163,22 @@ namespace JobSeeker.ViewModels
         private void SetData(Job job)
         {
             SelectedJob = job;
+            Console.WriteLine(selectedJob.Available);
             SetTestsData();
             SetQuestionsData();
             SetNumbersData();
             OnPropertyChanged("currentNumbers");
             OnPropertyChanged("currentQuestion");
             OnPropertyChanged("Variants");
-            bool flag = false;
-            foreach (EmploymentSystem.Data.Entities.Test test in selectedTests)
-                if (test.Available == true) flag = true;
-            if (flag == false) navigation.Navigate(new LackOfTests());
+            if (selectedJob.Available == false) navigation.Navigate(new LackOfTests());
+            else
+            {
+                firstFalseAnswer = new UserAnswer() { JobSeeker = currentUser, Test = currentTest, Question = currentQuestion, Variant = Variants.Where(variant => variant.Correctness == false).First() };
+                baseManager.SetAnswer(firstFalseAnswer);
+            }
         }
 
-        private void SetTestsData()
+        private bool SetTestsData()
         {
             tests = new List<EmploymentSystem.Data.Entities.Test>();
             tests = baseManager.GetAllTests();
@@ -182,6 +186,7 @@ namespace JobSeeker.ViewModels
             selectedTests = tests.FindAll(test => test.Job.Id == SelectedJob.Id).ToList();
             currentTest = selectedTests[SelectRandomValue(selectedTests.Count)];
             OnPropertyChanged("currentTest");
+            return true;
         }
         private void SetQuestionsData()
         {

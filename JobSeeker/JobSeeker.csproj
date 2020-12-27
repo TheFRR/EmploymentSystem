@@ -40,7 +40,13 @@
   <PropertyGroup>
     <StartupObject />
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Infrastructure\Icon\icons8-лягушка-100.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.6.0, Culture=neutral, PublicKeyToken=0e99375e54769942, processorArchitecture=MSIL">
+      <HintPath>..\packages\Portable.BouncyCastle.1.8.6\lib\net40\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
     <Reference Include="CommonServiceLocator, Version=2.0.2.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
       <HintPath>..\packages\CommonServiceLocator.2.0.2\lib\net47\CommonServiceLocator.dll</HintPath>
     </Reference>
@@ -59,6 +65,9 @@
     <Reference Include="GalaSoft.MvvmLight.Platform, Version=5.4.1.0, Culture=neutral, PublicKeyToken=5f873c45e98af8a1, processorArchitecture=MSIL">
       <HintPath>..\packages\MvvmLightLibs.5.4.1.1\lib\net45\GalaSoft.MvvmLight.Platform.dll</HintPath>
     </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=1.2.0.246, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpZipLib.1.2.0\lib\net45\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
     <Reference Include="MaterialDesignColors, Version=1.2.7.1979, Culture=neutral, PublicKeyToken=df2a72020bd7962a, processorArchitecture=MSIL">
       <HintPath>..\packages\MaterialDesignColors.1.2.7\lib\net45\MaterialDesignColors.dll</HintPath>
     </Reference>
@@ -67,6 +76,18 @@
     </Reference>
     <Reference Include="Ninject, Version=3.3.4.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <HintPath>..\packages\Ninject.3.3.4\lib\net45\Ninject.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI, Version=2.5.2.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPOI.2.5.2\lib\net45\NPOI.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OOXML, Version=2.5.2.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPOI.2.5.2\lib\net45\NPOI.OOXML.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXml4Net, Version=2.5.2.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPOI.2.5.2\lib\net45\NPOI.OpenXml4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXmlFormats, Version=2.5.2.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPOI.2.5.2\lib\net45\NPOI.OpenXmlFormats.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -88,31 +109,44 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Infrastructure\Commands\AddQuestionCommand.cs" />
+    <Compile Include="Infrastructure\Commands\AddVariantCommand.cs" />
     <Compile Include="Infrastructure\Commands\BackToTestsCommand.cs" />
     <Compile Include="Infrastructure\Commands\EndTestCommand.cs" />
+    <Compile Include="Infrastructure\Commands\EndTestCreationCommand.cs" />
+    <Compile Include="Infrastructure\Commands\ExportReportCommand.cs" />
     <Compile Include="Infrastructure\Commands\LogInCommand.cs" />
     <Compile Include="Infrastructure\Commands\LogOutCommand.cs" />
+    <Compile Include="Infrastructure\Commands\SaveQuestionCommand.cs" />
     <Compile Include="Infrastructure\Commands\NextQuestionCommand.cs" />
     <Compile Include="Infrastructure\Commands\PreviousQuestionCommand.cs" />
     <Compile Include="Infrastructure\Commands\RelayCommand.cs" />
     <Compile Include="Infrastructure\Commands\SelectJobCommand.cs" />
     <Compile Include="Infrastructure\Commands\ConfirmAnswerCommand.cs" />
+    <Compile Include="Infrastructure\Commands\StartTestCreationCommand.cs" />
     <Compile Include="Infrastructure\Converters\AuthorizationDataMultiConverter.cs" />
+    <Compile Include="Infrastructure\Converters\CreateTestDataMultiConverter.cs" />
     <Compile Include="Infrastructure\Navigation\BaseNavigation.cs" />
     <Compile Include="Infrastructure\Navigation\MainNavigation.cs" />
     <Compile Include="Infrastructure\Structures\AuthorizationData.cs" />
+    <Compile Include="Infrastructure\Structures\CreateTestData.cs" />
     <Compile Include="Interfaces\IMainNavigation.cs" />
     <Compile Include="Interfaces\INavigation.cs" />
     <Compile Include="IoC\IoC.cs" />
     <Compile Include="IoC\NinjectRegistrations.cs" />
+    <Compile Include="ViewModels\VMCreateTest.cs" />
     <Compile Include="ViewModels\VMAdminSelection.cs" />
     <Compile Include="ViewModels\VMAuthorization.cs" />
     <Compile Include="ViewModels\VMBase.cs" />
     <Compile Include="ViewModels\VMLackOfTests.cs" />
     <Compile Include="ViewModels\VMMainWindow.cs" />
+    <Compile Include="ViewModels\VMRecruiterSelection.cs" />
+    <Compile Include="ViewModels\VMReport.cs" />
     <Compile Include="ViewModels\VMSelectJob.cs" />
+    <Compile Include="ViewModels\VMSelectJobForAdmin.cs" />
     <Compile Include="ViewModels\VMTest.cs" />
     <Compile Include="ViewModels\VMTestResult.cs" />
+    <Compile Include="ViewModels\VMUserAdministration.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="Views\App.xaml.cs">
@@ -137,14 +171,26 @@
     <Compile Include="Views\Pages\LackOfTests.xaml.cs">
       <DependentUpon>LackOfTests.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Pages\RecruiterSelection.xaml.cs">
+      <DependentUpon>RecruiterSelection.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Pages\Report.xaml.cs">
+      <DependentUpon>Report.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Pages\SelectJob.xaml.cs">
       <DependentUpon>SelectJob.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Pages\SelectJobForAdmin.xaml.cs">
+      <DependentUpon>SelectJobForAdmin.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Pages\Test.xaml.cs">
       <DependentUpon>Test.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Pages\TestResult.xaml.cs">
       <DependentUpon>TestResult.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Pages\UserAdministration.xaml.cs">
+      <DependentUpon>UserAdministration.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -166,7 +212,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Pages\RecruiterSelection.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Pages\Report.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Pages\SelectJob.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Pages\SelectJobForAdmin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -175,6 +233,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Pages\TestResult.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Pages\UserAdministration.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -206,7 +268,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\EmploymentSystem.BLL\EmploymentSystem.BLL.csproj">
       <Project>{a4dd66c2-4014-4b42-be2c-f7ddaf855c3e}</Project>
@@ -216,6 +277,9 @@
       <Project>{8e0030d1-8d7a-439d-9297-6fb7307c6221}</Project>
       <Name>EmploymentSystem.Data</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Infrastructure\Icon\icons8-лягушка-100.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MaterialDesignThemes.3.2.0\build\MaterialDesignThemes.targets" Condition="Exists('..\packages\MaterialDesignThemes.3.2.0\build\MaterialDesignThemes.targets')" />

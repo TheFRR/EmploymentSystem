@@ -10,18 +10,14 @@ using System.Threading.Tasks;
 
 namespace JobSeeker.ViewModels
 {
-    class VMAdminSelection : VMBase
+    class VMRecruiterSelection : VMBase
     {
         private readonly IMainNavigation navigation;
         private LogOutCommand logOutCommand;
         public LogOutCommand LogOutCommand => logOutCommand ??
                   (logOutCommand = new LogOutCommand(IoC.IoC.Get<IMainNavigation>(), IoC.IoC.Get<IAuthorizationService>()));
 
-        private StartTestCreationCommand startTestCreationCommand;
-        public StartTestCreationCommand StartTestCreationCommand => startTestCreationCommand ??
-            (startTestCreationCommand = new StartTestCreationCommand((IoC.IoC.Get<IMainNavigation>())));
-
-        public VMAdminSelection()
+        public VMRecruiterSelection()
         {
             navigation = IoC.IoC.Get<IMainNavigation>();
         }
@@ -34,18 +30,6 @@ namespace JobSeeker.ViewModels
                 return startAdministration ?? (startAdministration = new RelayCommand(obj =>
                 {
                     navigation.Navigate(new UserAdministration());
-                }));
-            }
-        }
-
-        private RelayCommand checkReport;
-        public RelayCommand CheckReport
-        {
-            get
-            {
-                return checkReport ?? (checkReport = new RelayCommand(obj =>
-                {
-                    navigation.Navigate(new Report());
                 }));
             }
         }

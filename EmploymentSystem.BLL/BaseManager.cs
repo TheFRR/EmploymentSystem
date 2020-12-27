@@ -21,6 +21,7 @@ namespace EmploymentSystem.BLL
         public LiveData<JobSeeker> JobSeeker => jobSeeker ?? (jobSeeker = new LiveData<JobSeeker>(ctx.JobSeeker));
 
         private BaseContext ctx;
+
         public BaseManager()
         {
             ctx = new BaseContext();
@@ -72,10 +73,17 @@ namespace EmploymentSystem.BLL
             return ctx.UserAnswer.ToList();
         }
 
-        public void UpdateTest(Test test)
+        public void UpdateJob(Job job, bool flag)
         {
-            Test updatedTest = ctx.Test.Find(test.Id);
-            updatedTest.Available = test.Available;
+            Job updatedJob = ctx.Job.Find(job.Id);
+            updatedJob.Available = flag;
+            Save();
+        }
+
+        public void UpdateAnswer(UserAnswer userAnswer, Variant variant)
+        {
+            UserAnswer updatedAnswer = ctx.UserAnswer.Find(userAnswer.Id);
+            updatedAnswer.Variant = variant;
             Save();
         }
 
@@ -83,6 +91,37 @@ namespace EmploymentSystem.BLL
         {
             return ctx.UserAnswer.ToList();
         }
+
+        public List<UserLine> GetAllUserLines()
+        {
+            return ctx.UserLine.ToList();
+        }
+
+        public void CreateTest(Test test)
+        {
+            ctx.Test.Add(test);
+            Save();
+        }
+
+        public void CreateQuestion(Question question) 
+        {
+            ctx.Question.Add(question);
+            Save();
+        }
+
+        public void CreateVariant(Variant variant)
+        {
+            ctx.Variant.Add(variant);
+            Save();
+        }
+
+        public void CreateUserLine(UserLine userLine)
+        {
+            ctx.UserLine.Add(userLine);
+            Save();
+        }
+
+      
 
         public void Save()
         {

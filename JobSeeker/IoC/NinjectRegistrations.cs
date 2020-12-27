@@ -19,6 +19,7 @@ namespace JobSeeker.IoC
             Bind<IBaseManager>().To<BaseManager>().InSingletonScope();
             Bind<IAuthorizationService>().To<AuthorizationService>().InSingletonScope();
             Bind<IMainNavigation>().To<MainNavigation>().InSingletonScope();
+            Bind<IReportService>().To<ReportService>().InSingletonScope();
         }
     }
 }
