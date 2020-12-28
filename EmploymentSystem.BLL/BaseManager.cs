@@ -121,8 +121,7 @@ namespace EmploymentSystem.BLL
             Save();
         }
 
-      
-
+     
         public void Save()
         {
             ctx.SaveChanges();

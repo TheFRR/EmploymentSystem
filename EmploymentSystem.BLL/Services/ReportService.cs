@@ -17,12 +17,14 @@ namespace EmploymentSystem.BLL.Services
             public int minimalPercent { get; set; }
             public int highPercent { get; set; }
             public int fullPercent { get; set; }
+            public DateTime firstDate { get; set; }
+            public DateTime secondDate { get; set; }
         }
         public ReportService(IBaseManager baseManager)
         {
             this.baseManager = baseManager;
         }
-        public List<ReportData> ProgressReport()
+        public List<ReportData> ProgressReport(DateTime firstDate, DateTime secondDate)
         {
             List<ReportData> request = new List<ReportData>();
             var userLines = baseManager.GetAllUserLines();
@@ -31,9 +33,11 @@ namespace EmploymentSystem.BLL.Services
             foreach (Job job in jobs)
             {
                 ReportData reportData = new ReportData();
+                reportData.firstDate = firstDate;
+                reportData.secondDate = secondDate;
                 reportData.Job = job;
                 foreach (UserLine userLine in userLines)
-                    if (userLine.Test.Job.Id == job.Id)
+                    if (userLine.Test.Job.Id == job.Id && userLine.PassingDate >= firstDate && userLine.PassingDate <= secondDate)
                     {
                         if ((double)(userLine.CorrectAnswers) / (double)userLine.AllAnswers >= 0.5) reportData.minimalPercent++;
                         if ((double)(userLine.CorrectAnswers) / (double)userLine.AllAnswers >= 0.75) reportData.highPercent++;

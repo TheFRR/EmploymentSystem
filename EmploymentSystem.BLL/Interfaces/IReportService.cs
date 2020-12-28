@@ -9,6 +9,6 @@ namespace EmploymentSystem.BLL.Interfaces
 {
     public interface IReportService
     {
-        List<ReportData> ProgressReport();
+        List<ReportData> ProgressReport(DateTime firstDate, DateTime secondDate);
     }
 }

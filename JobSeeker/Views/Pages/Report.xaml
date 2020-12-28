@@ -16,7 +16,7 @@
     <Grid>
         <StackPanel Height="400" VerticalAlignment="Center" Width="760">
             <TextBlock Margin="0,10,0,10" FontSize="22" FontWeight="Medium" HorizontalAlignment="Center">Отчёт об успешности прохождения тестов</TextBlock>
-            <DataGrid Style="{StaticResource MaterialDesignDataGrid}" ItemsSource="{Binding reportData}"
+            <DataGrid Style="{StaticResource MaterialDesignDataGrid}" ItemsSource="{Binding ReportData}"
                       Height="300" AutoGenerateColumns="False"
                       CanUserResizeColumns="False"
                       CanUserAddRows="False"
@@ -29,12 +29,18 @@
                     <DataGridTextColumn ></DataGridTextColumn>
                 </DataGrid.Columns>
             </DataGrid>
-            <StackPanel Margin="0,10,0,0" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-                <Button Content="Экспортировать в .docx" Margin="0,0,15,0"
+            <StackPanel Margin="0,10,0,0" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom">
+                <Button Content="Экспортировать в .docx" Margin="8,0,15,0"
                         Command="{Binding ExportReportCommand}"
-                        CommandParameter="{Binding reportData}"></Button>
-                <Button Content="Вернуться на главную" Margin="0,0,10,0"
-                        Command="{Binding BackToAdminSelection}"></Button>
+                        CommandParameter="{Binding ReportData}"></Button>
+                <DatePicker Width="100" Margin="5,0,0,0" Text="Первая дата"
+                            Style="{StaticResource MaterialDesignDatePicker}"
+                            SelectedDate="{Binding FirstDate}" DisplayDateEnd="{Binding SecondDate}"></DatePicker>
+                <DatePicker Width="100" Margin="10,0,0,0"
+                            Style="{StaticResource MaterialDesignDatePicker}"
+                            SelectedDate="{Binding SecondDate}"></DatePicker>
+                <Button Content="Вернуться на главную" Margin="140,0,10,0"
+                        HorizontalAlignment="Right" Command="{Binding BackToAdminSelection}"></Button>
             </StackPanel>
         </StackPanel>
     </Grid>

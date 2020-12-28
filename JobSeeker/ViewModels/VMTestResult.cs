@@ -22,7 +22,7 @@ namespace JobSeeker.ViewModels
         public int allAnswers { get; set; }
 
         private Test currentTest;
-        private User currentUser;
+        private EmploymentSystem.Data.Entities.JobSeeker currentUser;
         private bool flag = false;
 
         private BackToTestsCommand backToTestsCommand;
@@ -39,18 +39,25 @@ namespace JobSeeker.ViewModels
 
         private void SetData(Test test)
         {
-            currentUser = authorizationService.GetCurrentUser();
+            currentUser = CurrentUser();
             currentTest = test;
             selectedAnswers = baseManager.GetAllAnswers().Where(answer => answer.JobSeeker.Id == currentUser.Id && answer.Test.Id == currentTest.Id).ToList();
             allAnswers = baseManager.GetAllQuestions().Where(question => question.Test.Id == currentTest.Id).ToList().Count;
             correctAnswers = selectedAnswers.Where(answer => answer.Variant.Correctness == true).ToList().Count;
             if (flag == false)
             {
-                baseManager.CreateUserLine(new UserLine() { Test = currentTest, AllAnswers = allAnswers, CorrectAnswers = correctAnswers, JobSeeker = currentUser, Hired = false });
+                baseManager.CreateUserLine(new UserLine() { Test = currentTest, AllAnswers = allAnswers, CorrectAnswers = correctAnswers, JobSeeker = currentUser, Hired = false, PassingDate = DateTime.Today });
                 flag = true;
             }
             OnPropertyChanged("allAnswers");
             OnPropertyChanged("correctAnswers");
+        }
+
+        private EmploymentSystem.Data.Entities.JobSeeker CurrentUser()
+        {
+            User user = authorizationService.GetCurrentUser();
+            if (!(user is EmploymentSystem.Data.Entities.JobSeeker)) throw new Exception("Invalid user type");
+            return user as EmploymentSystem.Data.Entities.JobSeeker;
         }
     }
 }

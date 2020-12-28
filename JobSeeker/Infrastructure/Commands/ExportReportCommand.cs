@@ -29,7 +29,7 @@ namespace JobSeeker.Infrastructure.Commands
             XWPFParagraph paragraph = doc.CreateParagraph();
             paragraph.Alignment = ParagraphAlignment.CENTER;
             XWPFRun r0 = paragraph.CreateRun();
-            r0.SetText("Отчёт об успешности прохождения тестов");
+            r0.SetText($"Отчёт об успешности прохождения тестов: {reportData[0].firstDate.ToString("dd/ MM/yyyy")} - {reportData[0].secondDate.ToString("dd/MM/yyyy")}");
 
             XWPFTable table = doc.CreateTable(reportData.Count + 1, 4);
          

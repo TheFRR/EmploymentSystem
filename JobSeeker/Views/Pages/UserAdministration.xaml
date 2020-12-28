@@ -29,13 +29,14 @@
                     <DataGridTextColumn Header="№ теста" Binding="{Binding Test.Id, Mode=OneWay}"></DataGridTextColumn>
                     <DataGridTextColumn Header="Правильных ответов" Binding="{Binding CorrectAnswers, Mode=OneWay}"></DataGridTextColumn>
                     <DataGridTextColumn Header="Всего ответов" Binding="{Binding AllAnswers, Mode=OneWay}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Дата прохождения" Binding="{Binding PassingDate, Mode=OneWay}"></DataGridTextColumn>
                     <DataGridCheckBoxColumn Header="Принят" Binding="{Binding Hired}"></DataGridCheckBoxColumn>
                 </DataGrid.Columns>
             </DataGrid>
             <StackPanel Margin="0,10,0,0" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
                 <Button Content="Сохранить изменения" Margin="0,0,15,0"
                         Command="{Binding SaveChanges}"></Button>
-                <Button Content="Вернуться на главную" Margin="0,0,10,0"
+                <Button Content="Вернуться на главную" Margin="0,0,0,0"
                         Command="{Binding BackToAdminSelection}"></Button>
             </StackPanel>
         </StackPanel>
