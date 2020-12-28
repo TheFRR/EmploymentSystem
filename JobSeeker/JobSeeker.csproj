@@ -112,6 +112,7 @@
     <Compile Include="Infrastructure\Commands\AddQuestionCommand.cs" />
     <Compile Include="Infrastructure\Commands\AddVariantCommand.cs" />
     <Compile Include="Infrastructure\Commands\BackToTestsCommand.cs" />
+    <Compile Include="Infrastructure\Commands\DeleteVariantCommand.cs" />
     <Compile Include="Infrastructure\Commands\EndTestCommand.cs" />
     <Compile Include="Infrastructure\Commands\EndTestCreationCommand.cs" />
     <Compile Include="Infrastructure\Commands\ExportReportCommand.cs" />

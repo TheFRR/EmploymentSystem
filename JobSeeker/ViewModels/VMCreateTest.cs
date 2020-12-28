@@ -35,6 +35,18 @@ namespace JobSeeker.ViewModels
             }
         }
 
+        private DeleteVariantCommand deleteVariantCommand;
+        public DeleteVariantCommand DeleteVariantCommand
+        {
+            get
+            {
+                return deleteVariantCommand ?? (deleteVariantCommand = new DeleteVariantCommand(obj =>
+                {
+                    Variants.RemoveAt(Variants.Count - 1);
+                }));
+            }
+        }
+
         private SaveQuestionCommand nextQuestion;
         public SaveQuestionCommand NextQuestion
         {
