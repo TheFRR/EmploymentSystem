@@ -1,7 +1,11 @@
-﻿using JobSeeker.Interfaces;
+﻿using EmploymentSystem.BLL.Interfaces;
+using EmploymentSystem.Data.Entities;
+using JobSeeker.Infrastructure.Structures;
+using JobSeeker.Interfaces;
 using JobSeeker.Views.Pages;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
