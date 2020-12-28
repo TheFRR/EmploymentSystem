@@ -15,7 +15,52 @@ namespace JobSeeker.ViewModels
     {
         private readonly IMainNavigation navigation;
         private readonly IReportService reportService;
-        public List<ReportData> reportData { get; set; }
+        private List<ReportData> reportData;
+        public List<ReportData> ReportData
+        {
+            set
+            {
+                OnPropertyChanged("ReportData");
+            }
+            get
+            {
+                reportData = reportService.ProgressReport(FirstDate, SecondDate);
+                return reportData;
+            }
+        }
+        private DateTime firstDate;
+        public DateTime FirstDate 
+        {
+            set
+            {
+                firstDate = value;
+                OnPropertyChanged("FirstDate");
+                OnPropertyChanged("ReportData");
+            }
+            get
+            {
+                return firstDate;
+            } 
+        }
+        private DateTime secondDate;
+        public DateTime SecondDate
+        {
+            set
+            {
+                secondDate = value;
+                OnPropertyChanged("SecondDate");
+                OnPropertyChanged("ReportData");
+                if (FirstDate > SecondDate)
+                {
+                    FirstDate = SecondDate;
+                    OnPropertyChanged("FirstDate");
+                }
+            }
+            get
+            {
+                return secondDate;
+            }
+        }
 
         private RelayCommand backToAdminSelection;
         public RelayCommand BackToAdminSelection
@@ -37,7 +82,8 @@ namespace JobSeeker.ViewModels
         {
             navigation = IoC.IoC.Get<IMainNavigation>();
             reportService = IoC.IoC.Get<IReportService>();
-            reportData = reportService.ProgressReport();
+            FirstDate = DateTime.Today;
+            SecondDate = DateTime.Today;
         }
     }
 }

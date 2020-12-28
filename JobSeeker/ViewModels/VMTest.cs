@@ -18,7 +18,7 @@ namespace JobSeeker.ViewModels
         private readonly IAuthorizationService authorizationService;
         private readonly IMainNavigation navigation;
 
-        private User currentUser;
+        private EmploymentSystem.Data.Entities.JobSeeker currentUser;
         private Job selectedJob;
         private Variant variant;
         private List<Question> questions;
@@ -34,14 +34,16 @@ namespace JobSeeker.ViewModels
         {
             get
             {
-                return selectedQuestions[i];
+                if (currentNumbers[0] == 0) return null;
+                else return selectedQuestions[currentNumbers[0] - 1];
             }
         }
         public List<Variant> Variants
         {
             get
             {
-                return baseManager.GetAllVariants().Where(variant => variant.Question.Id == selectedQuestions[i].Id).ToList();
+                if (currentNumbers[0] == 0) return null;
+                return baseManager.GetAllVariants().Where(variant => variant.Question.Id == selectedQuestions[currentNumbers[0] - 1].Id).ToList();
             }
         }
         public Variant SelectedVariant
@@ -73,7 +75,7 @@ namespace JobSeeker.ViewModels
             baseManager = IoC.IoC.Get<IBaseManager>();
             authorizationService = IoC.IoC.Get<IAuthorizationService>();
             navigation = IoC.IoC.Get<IMainNavigation>();
-            currentUser = authorizationService.GetCurrentUser();
+            currentUser = CurrentUser();
             selectedQuestions = new List<Question>();
             selectedQuestions.Add(new Question() { Text = "" });
             currentNumbers = new List<int>();
@@ -108,7 +110,6 @@ namespace JobSeeker.ViewModels
             {
                 return previousQuestion ?? (previousQuestion = new PreviousQuestionCommand(obj =>
                 {
-                    
                     if (i != 0)
                     {
                         currentNumbers[0]--;
@@ -167,12 +168,12 @@ namespace JobSeeker.ViewModels
             SetTestsData();
             SetQuestionsData();
             SetNumbersData();
-            OnPropertyChanged("currentNumbers");
-            OnPropertyChanged("currentQuestion");
-            OnPropertyChanged("Variants");
             if (selectedJob.Available == false) navigation.Navigate(new LackOfTests());
             else
             {
+                OnPropertyChanged("currentNumbers");
+                OnPropertyChanged("currentQuestion");
+                OnPropertyChanged("Variants");
                 firstFalseAnswer = new UserAnswer() { JobSeeker = currentUser, Test = currentTest, Question = currentQuestion, Variant = Variants.Where(variant => variant.Correctness == false).First() };
                 baseManager.SetAnswer(firstFalseAnswer);
             }
@@ -199,6 +200,13 @@ namespace JobSeeker.ViewModels
         {
             currentNumbers[0] = 1;
             currentNumbers[1] = selectedQuestions.Count;
+        }
+
+        private EmploymentSystem.Data.Entities.JobSeeker CurrentUser()
+        {
+            User user = authorizationService.GetCurrentUser();
+            if (!(user is EmploymentSystem.Data.Entities.JobSeeker)) throw new Exception("Invalid user type");
+            return user as EmploymentSystem.Data.Entities.JobSeeker;
         }
     }
 }
