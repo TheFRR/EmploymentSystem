@@ -13,14 +13,14 @@ namespace EmploymentSystem.Data.Context
         {
             var jobList = new List<Job>()
             {
-                new Job(){Name = "Программист"},
-                new Job(){Name = "Тестировщик"}
+                new Job(){Name = "Программист", Available = true},
+                new Job(){Name = "Тестировщик", Available = true}
             };
             var testList = new List<Test>()
             {
-                new Test(){Job = jobList[0], Available = true},
-                new Test(){Job = jobList[0], Available = true},
-                new Test(){Job = jobList[1], Available = true}
+                new Test(){Job = jobList[0]},
+                new Test(){Job = jobList[0]},
+                new Test(){Job = jobList[1]}
             };
             var questionList = new List<Question>()
             {
@@ -68,6 +68,16 @@ namespace EmploymentSystem.Data.Context
                     Password = "admin",
                 }
             };
+            var recruiterList = new List<Recruiter>()
+            {
+                new Recruiter()
+                {
+                    FirstName = "recruiter",
+                    LastName = "",
+                    Login = "recrut",
+                    Password = "recrut",
+                }
+            };
 
             jobList.ForEach(e => context.Job.Add(e));
             testList.ForEach(e => context.Test.Add(e));
@@ -75,6 +85,7 @@ namespace EmploymentSystem.Data.Context
             variantList.ForEach(e => context.Variant.Add(e));
             jobSeekerList.ForEach(e => context.JobSeeker.Add(e));
             adminList.ForEach(e => context.Admin.Add(e));
+            recruiterList.ForEach(e => context.Recruiter.Add(e));
 
             context.SaveChanges();
         }

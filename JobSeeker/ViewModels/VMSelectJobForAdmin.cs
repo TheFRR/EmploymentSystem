@@ -1,28 +1,28 @@
 ﻿using EmploymentSystem.BLL.Interfaces;
 using EmploymentSystem.Data.Entities;
-using GalaSoft.MvvmLight.Messaging;
 using JobSeeker.Infrastructure.Commands;
 using JobSeeker.Interfaces;
+using JobSeeker.Views.Pages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Controls;
 
 namespace JobSeeker.ViewModels
 {
-    class VMSelectJob : VMBase
+    class VMSelectJobForAdmin : VMBase
     {
         private readonly IAuthorizationService authorization;
         private readonly IBaseManager baseManager;
-        private LogOutCommand logOutCommand;
+        private readonly IMainNavigation navigation;
+        private RelayCommand backToAdminSelection;
         private SelectJobCommand selectJobCommand;
         private Job selectedJob;
         public IEnumerable<Job> Jobs
         {
-            get 
-            { 
+            get
+            {
                 var jobList = baseManager.GetAllJobs();
                 return jobList;
             }
@@ -36,20 +36,22 @@ namespace JobSeeker.ViewModels
                 OnPropertyChanged("SelectedJob");
             }
         }
-        public LogOutCommand LogOutCommand => logOutCommand ??
-                  (logOutCommand = new LogOutCommand(IoC.IoC.Get<IMainNavigation>(), authorization));
         public SelectJobCommand SelectJobCommand => selectJobCommand ?? (selectJobCommand = new SelectJobCommand(IoC.IoC.Get<IMainNavigation>(), authorization));
-        public VMSelectJob()
+        public RelayCommand BackToAdminSelection
+        { 
+            get
+            {
+                return backToAdminSelection ?? (backToAdminSelection = new RelayCommand(obj =>
+                {
+                    navigation.Navigate(new AdminSelection());
+                }));
+            }
+        }
+        public VMSelectJobForAdmin()
         {
             baseManager = IoC.IoC.Get<IBaseManager>();
             authorization = IoC.IoC.Get<IAuthorizationService>();
-            foreach (Job job in baseManager.GetAllJobs())
-            {
-                var answers = baseManager.GetAllUserAnswers()
-                    .Where(answer => answer.JobSeeker.Id == authorization.GetCurrentUser().Id && answer.Test.Job.Id == job.Id).ToList();
-                if (answers.Count == 0) job.Available = true;
-                Console.WriteLine(job.Available);
-            }
+            navigation = IoC.IoC.Get<IMainNavigation>();
         }
     }
 }

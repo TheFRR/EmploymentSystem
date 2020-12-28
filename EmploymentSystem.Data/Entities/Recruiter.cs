@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EmploymentSystem.BLL.Interfaces
+namespace EmploymentSystem.Data.Entities
 {
-    public interface ITestResultManager
+    public class Recruiter : User
     {
 
     }

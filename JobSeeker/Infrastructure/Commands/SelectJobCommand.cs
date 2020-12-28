@@ -1,4 +1,5 @@
-﻿using EmploymentSystem.Data.Entities;
+﻿using EmploymentSystem.BLL.Interfaces;
+using EmploymentSystem.Data.Entities;
 using GalaSoft.MvvmLight.Messaging;
 using JobSeeker.Interfaces;
 using JobSeeker.Views.Pages;
@@ -21,10 +22,12 @@ namespace JobSeeker.Infrastructure.Commands
         }
 
         private readonly INavigation navigation;
+        private readonly IAuthorizationService authorization;
 
-        public SelectJobCommand(INavigation navigation)
+        public SelectJobCommand(INavigation navigation, IAuthorizationService authorization)
         {
             this.navigation = navigation;
+            this.authorization = authorization;
         }
 
         public bool CanExecute(object parameter) => true;
@@ -32,7 +35,9 @@ namespace JobSeeker.Infrastructure.Commands
         public void Execute(object parameter)
         {
             var data = parameter as Job;
-            navigation.Navigate(new Test());
+            var currentUser = authorization.GetCurrentUser();
+            if (currentUser is EmploymentSystem.Data.Entities.JobSeeker) navigation.Navigate(new Test());
+            else if (currentUser is Admin) navigation.Navigate(new CreateTest());
             Messenger.Default.Send(data);
         }
     }

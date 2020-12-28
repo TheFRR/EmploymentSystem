@@ -18,14 +18,23 @@ namespace EmploymentSystem.BLL.Interfaces
         Test GetTest(int Id);
         Question GetQuestion(int Id);
         Variant GetVariant(int Id);
+
+        void CreateTest(Test test);
+        void CreateQuestion(Question question);
+        void CreateVariant(Variant variant);
+        void CreateUserLine(UserLine userLine);
+
         List<Question> GetAllQuestions();
         List<Variant> GetAllVariants();
         List<Test> GetAllTests();
-        void SetAnswer(UserAnswer userAnswer);
-        List<UserAnswer> GetAllAnswers();
-        void UpdateTest(Test test);
+        List<UserLine> GetAllUserLines();
         List<UserAnswer> GetAllUserAnswers();
+        List<UserAnswer> GetAllAnswers();
 
+        void SetAnswer(UserAnswer userAnswer);
+        void UpdateJob(Job job, bool flag);
+        void UpdateAnswer(UserAnswer userAnswer, Variant variant);
+        
         void Save();
 
     }

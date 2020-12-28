@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace JobSeeker.Infrastructure.Commands
 {
-    class NextQuestionCommand : ICommand
+    class AddQuestionCommand : ICommand
     {
         public event EventHandler CanExecuteChanged
         {
@@ -18,21 +19,18 @@ namespace JobSeeker.Infrastructure.Commands
         private Action<object> execute;
         private Func<object, bool> canExecute;
 
-        public NextQuestionCommand(Action<object> execute, Func<object, bool> canExecute = null)
+        public AddQuestionCommand(Action<object> execute, Func<object, bool> canExecute = null)
         {
             this.execute = execute;
             this.canExecute = canExecute;
         }
+
         public bool CanExecute(object parameter)
         {
-            if (parameter == null) return false;
-            else
-            {
-                List<int> nums;
-                nums = (List<int>)parameter;
-                if (nums[0] == nums[1]) return false;
-                else return true;
-            }
+            var data = (bool?)parameter;
+            if (data == null) return false;
+            if (data == true) return true;
+            else return false;
         }
 
         public void Execute(object parameter) => execute(parameter);
