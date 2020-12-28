@@ -21,6 +21,10 @@ namespace JobSeeker.Infrastructure.Navigation
             {
                 Navigate(new SelectJob());
             }
+            else if (user is Admin)
+            {
+                Navigate(new AdminSelection());
+            }
         }
 
     }

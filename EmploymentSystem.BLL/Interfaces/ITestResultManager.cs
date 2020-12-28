@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EmploymentSystem.Data.Entities
+namespace EmploymentSystem.BLL.Interfaces
 {
-    public class Recruiter : User
+    public interface ITestResultManager
     {
+
     }
 }

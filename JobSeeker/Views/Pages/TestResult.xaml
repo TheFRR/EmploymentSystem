@@ -16,14 +16,17 @@
 
     <Grid Width="450">
         <StackPanel VerticalAlignment="Center">
-            <TextBlock FontSize="24" TextAlignment="Center" Margin="5,0,5,10">
-                <Run>К сожалению,</Run>
-                <Run Foreground="Red">Вы не лягушка...</Run>
+            <TextBlock FontSize="24" FontWeight="Bold" TextAlignment="Center" Margin="0,0,0,5">
+                <Run>Результаты теста</Run>
             </TextBlock>
             <Separator/>
-            <TextBlock FontSize="16" Margin="5,5,0,0">Правильных ответов: 0/20</TextBlock>
-            <TextBlock FontSize="16" Margin="5,5,0,0">Времени затрачено: 0:25:36</TextBlock>
-            <Button Margin="5,10,5,0" Width="250" Command="{Binding BackToTestsCommand}">Вернуться к выбору тестов</Button>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock TextAlignment="Center" FontSize="20" Margin="5,10,0,0" Text="Правильных ответов: "></TextBlock>
+                <TextBlock Text="{Binding correctAnswers}" Margin="0,10,0,0" FontSize="20"></TextBlock>
+                <TextBlock Text=" / " Margin="0,10,0,0" FontSize="20"></TextBlock>
+                <TextBlock Text="{Binding allAnswers}" Margin="0,10,0,0" FontSize="20"></TextBlock>
+            </StackPanel>
+            <Button Margin="5,15,5,0" Width="250" Command="{Binding BackToTestsCommand}">Вернуться к выбору тестов</Button>
         </StackPanel>
     </Grid>
 </Page>

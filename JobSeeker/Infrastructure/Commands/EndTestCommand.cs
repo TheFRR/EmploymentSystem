@@ -1,6 +1,7 @@
-﻿using EmploymentSystem.BLL.Interfaces;
-using JobSeeker.Infrastructure.Structures;
+﻿using EmploymentSystem.Data.Entities;
+using GalaSoft.MvvmLight.Messaging;
 using JobSeeker.Interfaces;
+using JobSeeker.Views.Pages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ using System.Windows.Input;
 
 namespace JobSeeker.Infrastructure.Commands
 {
-    class LogInCommand : ICommand
+    class EndTestCommand : ICommand
     {
         public event EventHandler CanExecuteChanged
         {
@@ -19,28 +20,22 @@ namespace JobSeeker.Infrastructure.Commands
         }
 
         private readonly IMainNavigation navigation;
-        private readonly IAuthorizationService authorization;
-        
 
-        public LogInCommand(IMainNavigation navigation, IAuthorizationService authorization)
+        public EndTestCommand(IMainNavigation navigation)
         {
             this.navigation = navigation;
-            this.authorization = authorization;
         }
-
         public bool CanExecute(object parameter)
         {
-            var data = parameter as AuthorizationData;
-            return data != null && !string.IsNullOrEmpty(data.Login);
+            var data = parameter as EmploymentSystem.Data.Entities.Test;
+            return data != null;
         }
 
         public void Execute(object parameter)
         {
-            var data = parameter as AuthorizationData;
-            if (authorization.LogIn(data.Login, data.PasswordBox.Password))
-            {
-                navigation.Navigate(authorization.GetCurrentUser());
-            }
+            var data = parameter as EmploymentSystem.Data.Entities.Test;
+            navigation.Navigate(new TestResult());
+            Messenger.Default.Send(data);
         }
     }
 }
