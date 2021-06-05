@@ -23,6 +23,7 @@ namespace EmploymentSystem.BLL.Interfaces
         void CreateQuestion(Question question);
         void CreateVariant(Variant variant);
         void CreateUserLine(UserLine userLine);
+        void CreateJobSeeker(JobSeeker jobSeeker);
 
         List<Question> GetAllQuestions();
         List<Variant> GetAllVariants();

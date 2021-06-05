@@ -121,6 +121,12 @@ namespace EmploymentSystem.BLL
             Save();
         }
 
+        public void CreateJobSeeker(JobSeeker jobSeeker)
+        {
+            ctx.User.Add(jobSeeker);
+            Save();
+        }
+
      
         public void Save()
         {

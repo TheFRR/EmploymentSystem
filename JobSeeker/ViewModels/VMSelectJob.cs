@@ -48,7 +48,6 @@ namespace JobSeeker.ViewModels
                 var answers = baseManager.GetAllUserAnswers()
                     .Where(answer => answer.JobSeeker.Id == authorization.GetCurrentUser().Id && answer.Test.Job.Id == job.Id).ToList();
                 if (answers.Count == 0) job.Available = true;
-                Console.WriteLine(job.Available);
             }
         }
     }

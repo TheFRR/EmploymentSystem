@@ -112,6 +112,7 @@
     <Compile Include="Infrastructure\Commands\AddQuestionCommand.cs" />
     <Compile Include="Infrastructure\Commands\AddVariantCommand.cs" />
     <Compile Include="Infrastructure\Commands\BackToTestsCommand.cs" />
+    <Compile Include="Infrastructure\Commands\CreateNewUserCommand.cs" />
     <Compile Include="Infrastructure\Commands\DeleteVariantCommand.cs" />
     <Compile Include="Infrastructure\Commands\EndTestCommand.cs" />
     <Compile Include="Infrastructure\Commands\EndTestCreationCommand.cs" />
@@ -127,10 +128,12 @@
     <Compile Include="Infrastructure\Commands\StartTestCreationCommand.cs" />
     <Compile Include="Infrastructure\Converters\AuthorizationDataMultiConverter.cs" />
     <Compile Include="Infrastructure\Converters\CreateTestDataMultiConverter.cs" />
+    <Compile Include="Infrastructure\Converters\RegistrationDataMultiConverter.cs" />
     <Compile Include="Infrastructure\Navigation\BaseNavigation.cs" />
     <Compile Include="Infrastructure\Navigation\MainNavigation.cs" />
     <Compile Include="Infrastructure\Structures\AuthorizationData.cs" />
     <Compile Include="Infrastructure\Structures\CreateTestData.cs" />
+    <Compile Include="Infrastructure\Structures\RegistrationData.cs" />
     <Compile Include="Interfaces\IMainNavigation.cs" />
     <Compile Include="Interfaces\INavigation.cs" />
     <Compile Include="IoC\IoC.cs" />
@@ -142,6 +145,7 @@
     <Compile Include="ViewModels\VMLackOfTests.cs" />
     <Compile Include="ViewModels\VMMainWindow.cs" />
     <Compile Include="ViewModels\VMRecruiterSelection.cs" />
+    <Compile Include="ViewModels\VMRegister.cs" />
     <Compile Include="ViewModels\VMReport.cs" />
     <Compile Include="ViewModels\VMSelectJob.cs" />
     <Compile Include="ViewModels\VMSelectJobForAdmin.cs" />
@@ -174,6 +178,9 @@
     </Compile>
     <Compile Include="Views\Pages\RecruiterSelection.xaml.cs">
       <DependentUpon>RecruiterSelection.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Pages\Register.xaml.cs">
+      <DependentUpon>Register.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Pages\Report.xaml.cs">
       <DependentUpon>Report.xaml</DependentUpon>
@@ -214,6 +221,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Pages\RecruiterSelection.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Pages\Register.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

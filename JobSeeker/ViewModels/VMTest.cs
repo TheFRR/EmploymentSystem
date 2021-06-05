@@ -164,7 +164,7 @@ namespace JobSeeker.ViewModels
         private void SetData(Job job)
         {
             SelectedJob = job;
-            Console.WriteLine(selectedJob.Available);
+            //Console.WriteLine(selectedJob.Available);
             SetTestsData();
             SetQuestionsData();
             SetNumbersData();
