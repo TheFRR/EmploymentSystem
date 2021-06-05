@@ -49,5 +49,17 @@ namespace JobSeeker.ViewModels
                 }));
             }
         }
+
+        private RelayCommand createNewUser;
+        public RelayCommand CreateNewUser
+        {
+            get
+            {
+                return createNewUser ?? (createNewUser = new RelayCommand(obj =>
+                {
+                    navigation.Navigate(new Register());
+                }));
+            }
+        }
     }
 }
